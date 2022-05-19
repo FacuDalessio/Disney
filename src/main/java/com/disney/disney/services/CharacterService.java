@@ -2,6 +2,7 @@ package com.disney.disney.services;
 
 import com.disney.disney.entities.Personaje;
 import com.disney.disney.repositories.CharacterRepository;
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,20 @@ public class CharacterService {
     }
     
     @Transactional(rollbackOn={Exception.class})
-    public void edit(Personaje character){
+    public void edit(Personaje character) throws Exception{
+//        Personaje character = findById(id);
+//        if (!name.trim().isEmpty() & name != null) {
+//            character.setName(name);
+//        }
+//        if (!age.toString().trim().isEmpty() & age != null) {
+//            character.setAge(age);
+//        }
+//        if (!weight.toString().trim().isEmpty() & weight != null) {
+//            character.setWeight(weight);
+//        }
+//        if (!history.trim().isEmpty() & history != null) {
+//            character.setHistory(history);
+//        }
         characterRepository.save(character);
     }
     
@@ -58,8 +72,13 @@ public class CharacterService {
         if (character.getHistory().trim().isEmpty() || character.getHistory() == null) {
             throw new Exception("La historia esta vacia");
         }
-        if (character.getMoviesOrSeries() == null) {
-            throw new Exception("Debe seleccionar al menos un personaje");
-        }
+    }
+    
+    public List<Personaje> listAll(){
+        return characterRepository.findAll();
+    }
+    
+    public Personaje findByName(String name){
+        return characterRepository.findByName(name);
     }
 }

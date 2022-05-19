@@ -23,8 +23,7 @@ public class Genre {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    @Enumerated(EnumType.STRING)
-    private Genres name;
+    private String name;
     @OneToMany
     private List<MoviesOrSeries> moviesOrSeries;
 }
