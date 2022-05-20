@@ -26,19 +26,6 @@ public class CharacterService {
     
     @Transactional(rollbackOn={Exception.class})
     public void edit(Personaje character) throws Exception{
-//        Personaje character = findById(id);
-//        if (!name.trim().isEmpty() & name != null) {
-//            character.setName(name);
-//        }
-//        if (!age.toString().trim().isEmpty() & age != null) {
-//            character.setAge(age);
-//        }
-//        if (!weight.toString().trim().isEmpty() & weight != null) {
-//            character.setWeight(weight);
-//        }
-//        if (!history.trim().isEmpty() & history != null) {
-//            character.setHistory(history);
-//        }
         characterRepository.save(character);
     }
     

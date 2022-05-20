@@ -27,54 +27,44 @@
     ></script>
   </head>
   <body>
-    <nav th:replace="fragments/navBar :: navbar"></nav>
+    <!-- <nav th:replace="fragments/navBar :: navbar"></nav> -->
     <div class="form-floating" style="width: 50%; margin-left: 25%">
       <form
         class="form"
-        th:action="@{/character/edit}"
-        th:object="${character}"
+        th:action="@{/movies/edit}"
+        th:object="${movie}"
         method="POST"
         enctype="multipart/form-data"
       >
-        <input type="hidden" name="id" th:value="${character.id}" />
+        <input type="hidden" name="id" th:value="${movie.id}" />
         <div class="mb-3">
-          <label class="form-label">Name</label>
+          <label class="form-label">Title</label>
           <input
             type="text"
             class="form-control"
-            name="name"
-            th:value="${name}"
-            th:field="*{name}"
+            name="title"
+            th:value="${title}"
+            th:field="*{title}"
           />
         </div>
         <div class="mb-3">
-          <label class="form-label">Age</label>
+          <label class="form-label">Creation date</label>
+          <input
+            type="date"
+            class="form-control"
+            name="creationDate"
+            th:value="${creationDate}"
+            th:field="*{creationDate}"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Qualification</label>
           <input
             type="number"
             class="form-control"
-            name="age"
-            th:value="${age}"
-            th:field="*{age}"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Weight</label>
-          <input
-            type="number"
-            class="form-control"
-            name="weight"
-            th:value="${weight}"
-            th:field="*{weight}"
-          />
-        </div>
-        <div class="mb-3">
-          <label class="form-label">History</label>
-          <input
-            type="text"
-            class="form-control"
-            name="history"
-            th:value="${history}"
-            th:field="*{history}"
+            name="qualification"
+            th:value="${qualification}"
+            th:field="*{qualification}"
           />
         </div>
         <p th:if="${error != null}" th:text="${error}" style="color: red"></p>

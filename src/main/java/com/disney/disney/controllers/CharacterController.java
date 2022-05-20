@@ -42,7 +42,6 @@ public class CharacterController {
     @PostMapping("/save")
     public String savePost(@ModelAttribute Personaje character, ModelMap model){
         try {
-            System.out.println("character = " + character);
             characterService.save(character);
         } catch (Exception e) {
             model.put("error ", e.getMessage());

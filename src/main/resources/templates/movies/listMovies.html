@@ -5,7 +5,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Characters</title>
+    <title>Movies/Series</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -17,29 +17,30 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 </head>
 <body>
   <nav th:replace="fragments/navBar :: navbar"></nav>
+
     <table class="table">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Age</th>
-            <th scope="col">Weight</th>
+            <th scope="col">Title</th>
+            <th scope="col">Creation Date</th>
+            <th scope="col">Qualification</th>
             <th scope="col">Remove</th>
             <th scope="col">Edit</th>
             <th scope="col">Details</th>
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          <tr th:each="character : ${characters}">
-            <th scope="row" th:text="${character.name}"></th>
-            <td th:text="${character.age}"></td>
-            <td th:text="${character.weight}"></td>
-            <td><a th:href="@{/character/remove/__${character.id}__}" style="color: black;"><i class="fa-solid fa-trash"></i></a></td>
-            <td><a th:href="@{/character/edit/__${character.id}__}" style="color: black;"><i class="fa-solid fa-pen-to-square"></i></a></td>
-            <td><a th:href="@{/character/details/__${character.id}__}" style="color: black;"><i class="fa-solid fa-circle-info"></i></a></td>
+          <tr th:each="movie : ${movies}">
+            <th scope="row" th:text="${movie.title}"></th>
+            <td th:text="${#temporals.format(movie.creationDate, 'dd/MM/yyyy', locale)}"></td>
+            <td th:text="${movie.qualification}"></td>
+            <td><a th:href="@{/movies/remove/__${movie.id}__}" style="color: black;"><i class="fa-solid fa-trash"></i></a></td>
+            <td><a th:href="@{/movies/edit/__${movie.id}__}" style="color: black;"><i class="fa-solid fa-pen-to-square"></i></a></td>
+            <td><a style="color: black;"><i class="fa-solid fa-circle-info"></i></a></td>
           </tr>
         </tbody>
       </table>
-      <a href="/character/save">Save character</a>
+      <a href="/movies/save">Save movie or Serie</a>
       <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
       integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
