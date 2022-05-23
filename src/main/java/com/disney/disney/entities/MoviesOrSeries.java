@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +26,6 @@ public class MoviesOrSeries {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate creationDate;
     private Integer qualification;
-    @OneToMany
+    @ManyToMany
     private List<Personaje> characters;
 }

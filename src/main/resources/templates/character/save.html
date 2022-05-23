@@ -31,7 +31,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </div>
             <div class="mb-3">
                 <label class="form-label">History</label>
-                <input type="text" class="form-control" th:field="*{history}" name="history">
+                <textarea type="text" class="form-control" th:field="*{history}" name="history"></textarea>
             </div>
             <p th:if="${error != null}" th:text="${error}" style="color: red"></p>
             <button type="submit" class="btn btn-primary">Submit</button>

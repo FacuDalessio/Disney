@@ -1,7 +1,11 @@
 package com.disney.disney.controllers;
 
 import com.disney.disney.entities.MoviesOrSeries;
+import com.disney.disney.entities.Personaje;
+import com.disney.disney.services.CharacterService;
 import com.disney.disney.services.MoviesService;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,16 +14,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/movies")
 @Controller
 public class MoviesController {
 
+    private CharacterService characterService;
     private MoviesService moviesService;
 
     @Autowired
-    public MoviesController(MoviesService moviesService) {
+    public MoviesController(MoviesService moviesService, CharacterService characterService) {
         this.moviesService = moviesService;
+        this.characterService = characterService;
     }
     
     @GetMapping
@@ -47,7 +54,7 @@ public class MoviesController {
     }
     
     @GetMapping("/remove/{id}")
-    public String removeCharacter(ModelMap model,@PathVariable String id){
+    public String removeMovie(ModelMap model,@PathVariable String id){
         try {
             moviesService.remove(id);
         } catch (Exception ex) {
@@ -75,6 +82,38 @@ public class MoviesController {
             model.put("error", e.getMessage());
             model.put("movie", movie);
             return "movies/edit";
+        }
+        return "redirect:/movies";
+    }
+    
+   @GetMapping("/addCharacter/{id}")
+    public String addCharacter(@PathVariable String id, ModelMap model){
+         try {
+             MoviesOrSeries movie = moviesService.findById(id);
+             model.addAttribute("movie", movie);
+             List<Personaje> characters = characterService.listAll();
+             model.addAttribute("characters", characters);
+         } catch (Exception e) {
+             model.put("error", e.getMessage());
+         }
+        return "movies/addCharacter";
+    }
+    
+    @PostMapping("/addCharacter")
+    public String addMoviesPost(ModelMap model, @RequestParam String movieId, @RequestParam List<String> characterId){
+        try {
+            MoviesOrSeries movie = moviesService.findById(movieId);
+            List<Personaje> characters = new ArrayList();
+            for (String id : characterId) {
+                characters.add(characterService.findById(id));
+            }
+            movie.setCharacters(characters);
+            moviesService.edit(movie);
+        } catch (Exception e) {
+            model.put("error", e.getMessage());
+            List<Personaje> characters = characterService.listAll();
+            model.put("characters", characters);
+            return "movie/addCharacter";
         }
         return "redirect:/movies";
     }
