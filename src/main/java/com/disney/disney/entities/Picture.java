@@ -1,11 +1,11 @@
 package com.disney.disney.entities;
 
-import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,18 +15,16 @@ import org.hibernate.annotations.GenericGenerator;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Personaje {
+public class Picture {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+    
     private String name;
-    private Integer age;
-    private Double weight;
-    private String history;
-    @OneToMany
-    private List<MoviesOrSeries> moviesOrSeries;
-    @OneToOne
-    private Picture picture;
+    private String mime;
+    
+    @Lob @Basic(fetch = FetchType.LAZY)
+    private byte[] contents;
 }

@@ -28,6 +28,7 @@
   </head>
   <body>
     <nav th:replace="fragments/navBar :: navbar"></nav>
+    <img th:if="${character.picture != null}" th:src="${'/picture/character?id=' + character.id}">
     <table class="table">
       <thead>
         <tr>

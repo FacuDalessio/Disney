@@ -23,10 +23,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class CustomerService implements UserDetailsService {
 
     private CustomerRepository customerrepository;
+    private MailService mailService;
     
     @Autowired
-    public CustomerService(CustomerRepository customerrepository) {
+    public CustomerService(CustomerRepository customerrepository, MailService mailService) {
         this.customerrepository = customerrepository;
+        this.mailService = mailService;
     }
     
     @Transactional(rollbackOn = {Exception.class})
@@ -35,6 +37,7 @@ public class CustomerService implements UserDetailsService {
         customer.setRole(Role.USER);
         customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
         customerrepository.save(customer);
+//        mailService.send("You signed up for Disney, welcome!", "Register for Disney", customer.getEmail());
     }
     
      private void validation(Customer customer) throws Exception {
@@ -44,7 +47,7 @@ public class CustomerService implements UserDetailsService {
         if (customer.getLastName().isEmpty() || customer.getLastName().equals(" ") || customer.getLastName() == null || customer.getLastName().length() < 2) {
             throw new Exception("El apellido ingreado es invalido");
         }
-        if (customer.getDni().length() < 8 || customer.getDni().length() > 10 || customer.getDni().isEmpty() || customer.getDni().equals(" ") || customer.getDni() == null) {
+        if (customer.getDni().isEmpty() || customer.getDni().equals(" ") || customer.getDni() == null) {
             throw new Exception("El DNI ingreado es invalido");
         }
         if (customer.getEmail().isEmpty() || customer.getEmail().contains(" ") || customer.getEmail() == null) {

@@ -16,7 +16,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
     <nav th:replace="fragments/navBar :: navbar"></nav>
     <div class="form-floating" style="width: 50%; margin-left: 25%;">
-        <form class="form" th:action="@{/genre/save}" th:object="${genre}" method="POST" enctype="multipart/form-data">
+        <form class="form" th:action="@{/genre/save}" th:object="${genre}" method="POST">
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <select name="name" th:field="*{name}">

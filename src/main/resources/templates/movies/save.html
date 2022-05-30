@@ -29,6 +29,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <label class="form-label">Qualification</label>
                 <input type="number" class="form-control" th:field="*{qualification}" name="qualification">
             </div>
+            <div class="mb-3">
+                <label class="form-label">Picture</label>
+                <input type="file" class="form-control" name="file"></input>
+            </div>
             <p th:if="${error != null}" th:text="${error}" style="color: red"></p>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

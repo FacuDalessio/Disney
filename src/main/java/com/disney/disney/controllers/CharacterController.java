@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @PreAuthorize("hasAnyRole('ROLE_USER')")
 @RequestMapping("/character")
@@ -46,9 +47,9 @@ public class CharacterController {
     }
     
     @PostMapping("/save")
-    public String savePost(@ModelAttribute Personaje character, ModelMap model){
+    public String savePost(@ModelAttribute Personaje character, ModelMap model, MultipartFile file){
         try {
-            characterService.save(character);
+            characterService.save(character, file);
         } catch (Exception e) {
             model.put("error ", e.getMessage());
             model.put("character", character);

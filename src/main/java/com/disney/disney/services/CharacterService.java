@@ -1,26 +1,32 @@
 package com.disney.disney.services;
 
 import com.disney.disney.entities.Personaje;
+import com.disney.disney.entities.Picture;
 import com.disney.disney.repositories.CharacterRepository;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CharacterService {
 
     private CharacterRepository characterRepository;
+    private PictureService pictureService;
 
     @Autowired
-    public CharacterService(CharacterRepository characterRepository) {
+    public CharacterService(CharacterRepository characterRepository, PictureService pictureService) {
         this.characterRepository = characterRepository;
+        this.pictureService = pictureService;
     }
     
     @Transactional(rollbackOn = {Exception.class})
-    public void save(Personaje character) throws Exception{
+    public void save(Personaje character, MultipartFile file) throws Exception{
         validate(character);
+        Picture picture = pictureService.save(file);
+        character.setPicture(picture);
         characterRepository.save(character);
     }
     
