@@ -1,30 +1,37 @@
 package com.disney.disney.services;
 
 import com.disney.disney.entities.Personaje;
+import com.disney.disney.entities.Picture;
 import com.disney.disney.repositories.CharacterRepository;
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CharacterService {
 
     private CharacterRepository characterRepository;
+    private PictureService pictureService;
 
     @Autowired
-    public CharacterService(CharacterRepository characterRepository) {
+    public CharacterService(CharacterRepository characterRepository, PictureService pictureService) {
         this.characterRepository = characterRepository;
+        this.pictureService = pictureService;
     }
     
     @Transactional(rollbackOn = {Exception.class})
-    public void save(Personaje character) throws Exception{
+    public void save(Personaje character, MultipartFile file) throws Exception{
         validate(character);
+        Picture picture = pictureService.save(file);
+        character.setPicture(picture);
         characterRepository.save(character);
     }
     
     @Transactional(rollbackOn={Exception.class})
-    public void edit(Personaje character){
+    public void edit(Personaje character) throws Exception{
         characterRepository.save(character);
     }
     
@@ -58,8 +65,21 @@ public class CharacterService {
         if (character.getHistory().trim().isEmpty() || character.getHistory() == null) {
             throw new Exception("La historia esta vacia");
         }
-        if (character.getMoviesOrSeries() == null) {
-            throw new Exception("Debe seleccionar al menos un personaje");
-        }
     }
+    
+    public List<Personaje> listAll(){
+        return characterRepository.findAll();
+    }
+    
+    public List<Personaje> findByName(String name){
+        return characterRepository.findByName(name);
+    }
+    
+    public List<Personaje> findByAge(Integer age){
+        return characterRepository.findByAge(age);
+    }
+    
+//    public List<Personaje> findByMoviesOrSeriesId(String id){
+//        return characterRepository.findByMoviesOrSeriesId(id);
+//    }
 }
