@@ -7,6 +7,7 @@ import com.disney.disney.services.MoviesService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@PreAuthorize("hasAnyRole('ROLE_USER')")
 @RequestMapping("/genre")
 @Controller
 public class GenreController {
@@ -86,5 +88,16 @@ public class GenreController {
             return "genre/addMovies";
         }
         return "redirect:/genre";
+    }
+    
+    @GetMapping("/details/{id}")
+    public String details(ModelMap model, @PathVariable String id){
+        try {
+            model.addAttribute("genre",genreService.findById(id));
+        } catch (Exception ex) {
+            model.put("error", ex.getMessage());
+            return "redirect:/genre";
+        }
+        return "genre/details";
     }
 }

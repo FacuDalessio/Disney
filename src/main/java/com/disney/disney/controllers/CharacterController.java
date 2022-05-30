@@ -6,7 +6,10 @@ import com.disney.disney.services.CharacterService;
 import com.disney.disney.services.MoviesService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+@PreAuthorize("hasAnyRole('ROLE_USER')")
 @RequestMapping("/character")
 @Controller
 public class CharacterController {
@@ -86,17 +90,6 @@ public class CharacterController {
         return "redirect:/character";
     }
     
-    @GetMapping("/details/{id}")
-    public String characterDetails(@PathVariable String id, ModelMap model){
-        try {
-            Personaje character = characterService.findById(id);
-            model.addAttribute("character", character);
-        } catch (Exception e) {
-            model.put("error", e.getMessage());
-        }
-        return "character/details";
-    }
-    
      @GetMapping("/addMovies/{id}")
     public String addMovies(@PathVariable String id, ModelMap model){
          try {
@@ -129,10 +122,31 @@ public class CharacterController {
         return "redirect:/character";
     }
     
-//    @GetMapping("/query")
-//    public String findByName(@RequestParam("name") String name, ModelMap model){
-//       model.addAttribute("character", characterService.findByName(name));
-//       return "character/character";
-//    }
+    @GetMapping("/details/{id}")
+    public String details(ModelMap model, @PathVariable String id){
+        try {
+            model.addAttribute("character",characterService.findById(id));
+        } catch (Exception ex) {
+            model.put("error", ex.getMessage());
+            return "redirect:/character";
+        }
+        return "character/details";
+    }
+    @GetMapping("/name")
+    public String findByName(@RequestParam("name") String name, ModelMap model){
+       model.addAttribute("characters", characterService.findByName(name));
+       return "character/listCharacters";
+    }
     
+    @GetMapping("/age")
+    public String findByAge(@RequestParam("age") Integer age, ModelMap model){
+       model.addAttribute("characters", characterService.findByAge(age));
+       return "character/listCharacters";
+    }
+    
+//    @GetMapping("/movie")
+//    public String findByMoviesOrSeriesId(@RequestParam("id") String id, ModelMap model){
+//       model.addAttribute("characters", characterService.findByMoviesOrSeriesId(id));
+//       return "character/listCharacters";
+//    }
 }

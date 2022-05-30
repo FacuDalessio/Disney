@@ -32,27 +32,33 @@
       <thead>
         <tr>
           <th scope="col">Name</th>
-          <th scope="col">Details</th>
-          <th scope="col">Add Movies/Series</th>
         </tr>
       </thead>
       <tbody class="table-group-divider">
-        <tr th:each="genre : ${genders}">
+        <tr>
           <th scope="row" th:text="${genre.name}"></th>
-          <td>
-            <a th:href="@{/genre/details/__${genre.id}__}" style="color: black"><i class="fa-solid fa-circle-info"></i></a>
-          </td>
-          <td>
-            <a
-            th:href="@{/genre/addMovies/__${genre.id}__}"
-              style="color: black"
-              ><i class="fa-solid fa-circle-plus"></i>
-            </a>
-          </td>
         </tr>
       </tbody>
     </table>
-    <a href="/genre/save">Save genre</a>
+    <h3>Movies related:</h3>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Creation Date</th>
+            <th scope="col">Qualification</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr th:each="movie : ${genre.moviesOrSeries}">
+            <th scope="row" th:text="${movie.title}"></th>
+            <td
+              th:text="${#temporals.format(movie.creationDate, 'dd/MM/yyyy', locale)}"
+            ></td>
+            <td th:text="${movie.qualification}"></td>
+          </tr>
+        </tbody>
+      </table>
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
       integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"

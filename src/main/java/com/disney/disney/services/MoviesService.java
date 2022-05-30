@@ -58,4 +58,8 @@ public class MoviesService {
     public List<MoviesOrSeries> listAll(){
         return moviesRepository.findAll();
     }
+    
+    public List<MoviesOrSeries> findByTitle(String title){
+        return moviesRepository.findByTitle(title);
+    }
 }

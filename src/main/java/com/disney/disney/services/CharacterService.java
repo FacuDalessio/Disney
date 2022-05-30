@@ -65,7 +65,15 @@ public class CharacterService {
         return characterRepository.findAll();
     }
     
-    public Personaje findByName(String name){
+    public List<Personaje> findByName(String name){
         return characterRepository.findByName(name);
     }
+    
+    public List<Personaje> findByAge(Integer age){
+        return characterRepository.findByAge(age);
+    }
+    
+//    public List<Personaje> findByMoviesOrSeriesId(String id){
+//        return characterRepository.findByMoviesOrSeriesId(id);
+//    }
 }
